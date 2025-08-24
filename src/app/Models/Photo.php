@@ -23,6 +23,9 @@ class Photo extends Model
         'approved_at' => 'datetime',
         'deleted_at'  => 'datetime',
         'hidden_at'   => 'datetime',
+        'is_pickup'    => 'boolean',
+        'pickup_from'  => 'datetime',
+        'pickup_until' => 'datetime',
     ];
 
     /** 投稿者 */
@@ -79,6 +82,19 @@ class Photo extends Model
 
     public function scopePublic($q) {
         return $q->where('is_approved', true)->where('is_visible', true);
+    }
+
+    public function scopePickup($q)
+    {
+        $now = now();
+        return $q->public()
+                 ->where('is_pickup', true)
+                 ->where(function($qq) use ($now) {
+                    $qq->whereNull('pickup_from')->orWhere('pickup_from', '<=', $now);
+                 })
+                 ->where(function($qq) use ($now) {
+                    $qq->whereNull('pickup_until')->orWhere('pickup_until', '>=', $now);
+                 });
     }
 
     public function scopeVisible($q){ return $q->where('is_visible', true); }

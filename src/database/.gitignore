@@ -1,1 +1,2 @@
 *.sqlite*
+/docker/mysql/data/

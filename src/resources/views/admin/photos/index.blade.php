@@ -94,38 +94,59 @@
               @if(!$photo->is_visible && $photo->hidden_at)
                 <br>非公開日：{{ \Carbon\Carbon::parse($photo->hidden_at)->format('Y/m/d') }}
               @endif
+              @if($photo->is_pickup)
+      <br><strong style="color:#66cdaa;">PICK UP</strong>
+      @if($photo->pickup_order)（順序: {{ $photo->pickup_order }}）@endif
+    @endif
             </div>
           </td>
 
           <td class="ops-col">
-            <div class="actions">
-              {{-- 承認（未承認のときだけ） --}}
-              @unless($photo->is_approved)
-                <form method="POST" action="{{ route('admin.photos.approve',$photo->id) }}">
-                  @csrf @method('PUT')
-                  <button type="submit" class="btn btn--approve">承認する</button>
-                </form>
-              @endunless
+  <div class="actions">
+    {{-- 承認（未承認のときだけ） --}}
+    @unless($photo->is_approved)
+      <form method="POST" action="{{ route('admin.photos.approve',$photo->id) }}">
+        @csrf @method('PUT')
+        <button type="submit" class="btn btn--approve">承認する</button>
+      </form>
+    @endunless
 
-              {{-- 公開/非公開トグル --}}
-              @if($photo->is_visible)
-                {{-- 非公開にする --}}
-                <form method="POST" action="{{ route('admin.photos.hide',$photo->id) }}"
-                      onsubmit="return confirm('この投稿を非公開にしますか？');">
-                  @csrf @method('PUT')
-                  {{-- 非公開理由を扱うなら hidden/入力欄を追加 --}}
-                  <button type="submit" class="btn btn--delete">非公開にする</button>
-                </form>
-              @else
-                {{-- 再公開する --}}
-                <form method="POST" action="{{ route('admin.photos.unhide',$photo->id) }}"
-                      onsubmit="return confirm('この投稿を再公開しますか？');">
-                  @csrf @method('PUT')
-                  <button type="submit" class="btn btn--approve">再公開する</button>
-                </form>
-              @endif
-            </div>
-          </td>
+    {{-- 公開/非公開トグル --}}
+    @if($photo->is_visible)
+      <form method="POST" action="{{ route('admin.photos.hide',$photo->id) }}"
+            onsubmit="return confirm('この投稿を非公開にしますか？');">
+        @csrf @method('PUT')
+        <button type="submit" class="btn btn--delete">非公開にする</button>
+      </form>
+    @else
+      <form method="POST" action="{{ route('admin.photos.unhide',$photo->id) }}"
+            onsubmit="return confirm('この投稿を再公開しますか？');">
+        @csrf @method('PUT')
+        <button type="submit" class="btn btn--approve">再公開する</button>
+      </form>
+    @endif
+
+    {{-- ★ PICK UP 切り替え（同じ「操作」セルに統合） --}}
+    @if($photo->is_pickup)
+      <form method="POST" action="{{ route('admin.photos.unpickup',$photo->id) }}">
+        @csrf @method('PUT')
+        <button type="submit" class="btn btn--warn">PICK UP解除</button>
+      </form>
+      {{-- 任意：順序更新 --}}
+      <form method="POST" action="{{ route('admin.photos.pickupOrder',$photo->id) }}" class="pickup-order-form">
+        @csrf @method('PUT')
+        <input type="number" name="pickup_order" value="{{ $photo->pickup_order }}" min="1" class="pickup-order-input">
+        <button type="submit" class="btn">順序更新</button>
+      </form>
+    @else
+      <form method="POST" action="{{ route('admin.photos.pickup',$photo->id) }}">
+        @csrf @method('PUT')
+        <button type="submit" class="btn btn--primary">PICK UPにする</button>
+      </form>
+    @endif
+  </div>
+</td>
+
         </tr>
       @empty
         <tr>

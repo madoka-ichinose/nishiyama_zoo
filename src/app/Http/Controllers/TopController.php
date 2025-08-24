@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Yasumi\Yasumi;
 use App\Models\Contest;
+use App\Models\Photo;
 
 class TopController extends Controller
 {
@@ -46,10 +47,25 @@ class TopController extends Controller
         $now = Carbon::now($tz);
         $contest = Contest::active()->orderByDesc('start_at')->first();
 
+        $pickupPhotos = Photo::with(['animal','user'])
+        ->pickup()
+        ->orderByRaw('COALESCE(pickup_order, 9999) asc')
+        ->latest('approved_at')   // 任意
+        ->take(8)
+        ->get();
+
+        if ($pickupPhotos->isEmpty()) {
+    $pickupPhotos = Photo::with(['animal','user'])
+        ->public()
+        ->latest()
+        ->take(8)->get();
+}
+
     return view('welcome', [
         'isClosedToday' => $isClosedToday,
         'openingHours'  => $openingHours,
         'contest'       => $contest,
+        'pickupPhotos' => $pickupPhotos,
         // 必要なら他のデータも…
     ]);
     }

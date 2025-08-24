@@ -30,5 +30,12 @@ class DatabaseSeeder extends Seeder
                 'is_admin' => true,
             ]
         );
+
+    $this->call(DummyUsersTableSeeder::class);
+    $this->call([
+        UsersTableSeeder::class,
+        AnimalsTableSeeder::class,
+        PhotosTableSeeder::class,
+    ]);
 }
 }

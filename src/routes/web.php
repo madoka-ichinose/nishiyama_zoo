@@ -101,6 +101,12 @@ Route::prefix('admin')
         Route::delete('/photos/{photo}', [AdminPhotoController::class, 'destroy'])->name('photos.destroy');
         Route::put('/photos/{photo}/hide',   [AdminPhotoController::class, 'hide'])->name('photos.hide');
         Route::put('/photos/{photo}/unhide', [AdminPhotoController::class, 'unhide'])->name('photos.unhide');
+        // routes/web.php （admin グループ内）
+Route::put('/photos/{photo}/pickup', [AdminPhotoController::class, 'pickup'])->name('photos.pickup');
+Route::put('/photos/{photo}/unpickup', [AdminPhotoController::class, 'unpickup'])->name('photos.unpickup');
+// 任意：順序を変えたい場合
+Route::put('/photos/{photo}/pickup-order', [AdminPhotoController::class, 'setPickupOrder'])->name('photos.pickupOrder');
+
 
         // コンテスト管理
         Route::get('/contests', [ContestController::class, 'index'])->name('contests.index');

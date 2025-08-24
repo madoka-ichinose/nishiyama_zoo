@@ -53,8 +53,8 @@
     <div class="pickup__grid">
       @forelse(($pickupPhotos ?? []) as $photo)
         <article class="card">
-          <a href="{{ route('photos.show', $photo) }}" class="card__link">
-            <img src="{{ asset($photo->image_path) }}" alt="{{ $photo->animal->name }}" class="card__media">
+          
+            <img src="{{ asset('storage/'.$photo->image_path) }}" alt="{{ $photo->animal->name }}" class="card__media">
             <div class="card__body">
               <div class="card__row">
                 <span class="card__name">{{ $photo->animal->name }}</span>
@@ -64,7 +64,7 @@
                 <p class="card__comment">{{ $photo->comment }}</p>
               @endif
             </div>
-          </a>
+          
         </article>
       @empty
         <article class="card card--placeholder">

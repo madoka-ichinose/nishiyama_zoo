@@ -116,4 +116,38 @@ public function unhide(Photo $photo)
     return back()->with('status', "ID:{$photo->id} を再公開しました。");
 }
 
+public function pickup(Photo $photo)
+{
+    $photo->is_pickup = true;
+    if (is_null($photo->pickup_order)) {
+        // ざっくり末尾に（最大値+1）
+        $max = Photo::where('is_pickup', true)->max('pickup_order');
+        $photo->pickup_order = (int)$max + 1;
+    }
+    $photo->save();
+
+    return back()->with('status', 'この写真をPICK UPに設定しました。');
+}
+
+public function unpickup(Photo $photo)
+{
+    $photo->is_pickup = false;
+    $photo->pickup_order = null;
+    $photo->save();
+
+    return back()->with('status', 'この写真のPICK UP設定を解除しました。');
+}
+
+// 任意：順序変更
+public function setPickupOrder(Request $request, Photo $photo)
+{
+    $data = $request->validate([
+        'pickup_order' => ['nullable','integer','min:1','max:9999'],
+    ]);
+    $photo->pickup_order = $data['pickup_order'];
+    $photo->save();
+
+    return back()->with('status', 'PICK UPの表示順を更新しました。');
+}
+
 }
