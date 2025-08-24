@@ -1,0 +1,309 @@
+/* ====== コンテスト応募写真（管理） ====== */
+
+.container {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 16px;
+    font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    color: #333;
+}
+
+.page-title {
+    margin: 0 0 16px;
+    font-size: 24px;
+    border-left: 5px solid #66cdaa;
+    padding-left: 10px;
+}
+
+/* Flash */
+.alert {
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin: 12px 0;
+    font-weight: 600
+}
+
+.alert-success {
+    background: #f0fff7;
+    border: 1px solid #bfe8d7;
+    color: #246b4f
+}
+
+.alert-danger {
+    background: #fff5f5;
+    border: 1px solid #f5c2c7;
+    color: #842029
+}
+
+/* タブ */
+.tabs {
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    margin: 0 0 14px;
+    padding: 0;
+    flex-wrap: wrap
+}
+
+.tabs li a {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 999px;
+    text-decoration: none;
+    color: #333;
+    font-size: 13px;
+    background: #fff
+}
+
+.tabs li.active a {
+    background: #66cdaa;
+    color: #fff;
+    border-color: #66cdaa
+}
+
+/* フィルター */
+.filter-form .row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 12px
+}
+
+.filter-form label {
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    gap: 6px
+}
+
+.filter-form input[type="text"],
+.filter-form input[type="date"],
+.filter-form select {
+    height: 36px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    min-width: 180px
+}
+
+/* ボタン */
+.btn {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    background: #66cdaa;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600
+}
+
+.btn.secondary {
+    background: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd
+}
+
+.btn.danger {
+    background: #d9534f;
+    color: #fff
+}
+
+/* 集計カード */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin: 10px 0 14px
+}
+
+.stats .card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center
+}
+
+.stats .card strong {
+    font-size: 20px
+}
+
+/* CSV */
+.export {
+    margin: 10px 0
+}
+
+/* 一括操作 */
+.bulk {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px 0
+}
+
+.bulk select,
+.bulk input[type="text"] {
+    height: 36px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0 10px
+}
+
+.bulk input[type="text"] {
+    min-width: 220px
+}
+
+/* テーブル */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    overflow: hidden
+}
+
+.table th,
+.table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+    font-size: 14px
+}
+
+.table th {
+    background: #fafafa;
+    color: #666;
+    text-align: left
+}
+
+.table .thumb {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #eee
+}
+
+.table .caption {
+    max-width: 420px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+
+/* バッジ / 表示状態 */
+.badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 999px;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1
+}
+
+.badge.pending {
+    background: #f0ad4e
+}
+
+.badge.approved {
+    background: #3cb371
+}
+
+.badge.rejected {
+    background: #d9534f
+}
+
+.ok {
+    color: #3cb371;
+    font-weight: 700
+}
+
+.ng {
+    color: #d9534f;
+    font-weight: 700
+}
+
+.empty {
+    padding: 24px;
+    text-align: center;
+    color: #666
+}
+
+/* ページネーション（Laravel標準ULを軽く整える） */
+.pagination {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin: 16px 0
+}
+
+.pagination .page-link,
+.pagination a,
+.pagination span {
+    display: inline-block;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    text-decoration: none;
+    color: #333;
+    background: #fff;
+    font-size: 13px
+}
+
+.pagination .active span,
+.pagination .page-item.active .page-link {
+    background: #66cdaa;
+    color: #fff;
+    border-color: #66cdaa
+}
+
+/* 30日推移（簡易バー） */
+.mt-lg {
+    margin-top: 24px
+}
+
+.trend {
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+    height: 120px;
+    margin: 10px 0
+}
+
+.trend .bar {
+    width: 10px;
+    background: #66cdaa;
+    height: calc(var(--v, 1) * 6px);
+    border-radius: 3px
+}
+
+/* レスポンシブ */
+@media (max-width: 900px) {
+    .table .caption {
+        max-width: 280px
+    }
+}
+
+@media (max-width: 720px) {
+    .filter-form .row {
+        flex-direction: column;
+        align-items: stretch
+    }
+
+    .filter-form input[type="text"],
+    .filter-form input[type="date"],
+    .filter-form select {
+        min-width: unset
+    }
+
+    .table .thumb {
+        width: 96px;
+        height: 72px
+    }
+}

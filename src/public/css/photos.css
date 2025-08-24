@@ -1,0 +1,250 @@
+.photos-page {
+    max-width: 1230px;
+    margin: 0 auto;
+    padding: 20px 15px;
+    font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+
+.photos-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.photos-title {
+    font-size: 28px;
+    color: #333;
+    margin: 0;
+    border-left: 5px solid #66cdaa;
+        padding-left: 10px;
+}
+
+/* 投稿ボタン */
+.photo-upload-btn {
+    display: inline-block;
+    background-color: #66cdaa;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.photo-upload-btn:hover {
+    background-color: #4fcca2;
+}
+
+/* 写真グリッド */
+.photos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* 写真カード */
+.photo-card {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #fff;
+    transition: transform 0.2s ease;
+}
+
+.photo-card:hover {
+    transform: scale(1.02);
+}
+
+/* クリック領域を広く & ズームアイコン */
+.photo-card__image a {
+    display: block;
+    cursor: zoom-in;
+}
+
+.photo-card__image img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+
+/* 投稿情報 */
+.photo-card__body {
+    padding: 10px;
+}
+
+.photo-card__author {
+    font-weight: bold;
+    font-size: 14px;
+    margin: 0 0 5px;
+    color: #333;
+}
+
+.photo-card__comment {
+    font-size: 13px;
+    color: #555;
+    margin: 0 0 5px;
+}
+
+.photo-card__date {
+    font-size: 12px;
+    color: #999;
+    margin: 0;
+}
+
+/* ページネーション */
+.pagination {
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* 写真がない場合 */
+.no-photos {
+    text-align: center;
+    padding: 40px 0;
+    color: #666;
+}
+
+/* ===== Modal ===== */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .2s ease, visibility .2s ease;
+    z-index: 1000;
+}
+
+.modal.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, .6);
+}
+
+.modal__dialog {
+    position: relative;
+    z-index: 1001;
+    width: min(900px, 92vw);
+    max-height: 92vh;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+}
+
+.modal__media {
+    background: #000;
+    display: grid;
+    place-items: center;
+}
+
+.modal__media img {
+    max-width: 100%;
+    max-height: 88vh;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    background: #000;
+}
+
+.modal__body {
+    padding: 16px;
+    overflow: auto;
+}
+
+.modal__author {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+
+.modal__comment {
+    margin: 0 0 8px;
+    color: #555;
+    line-height: 1.6;
+    white-space: pre-wrap;
+}
+
+.modal__date {
+    margin: 0;
+    color: #999;
+    font-size: 13px;
+}
+
+.modal__close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, .5);
+    color: #fff;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.modal__close:hover {
+    background: rgba(0, 0, 0, .65);
+}
+
+/* ===== レスポンシブ対応 ===== */
+
+/* 900px以下：モーダルを縦レイアウト */
+@media (max-width: 900px) {
+    .modal__dialog {
+        grid-template-columns: 1fr;
+        width: min(720px, 94vw);
+    }
+}
+
+/* タブレット：2列 */
+@media (max-width: 768px) {
+    .photos-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .photos-title {
+        font-size: 22px;
+    }
+
+    .photo-upload-btn {
+        font-size: 13px;
+        padding: 8px 14px;
+    }
+
+    .photos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* スマホ：1列 */
+@media (max-width: 480px) {
+    .photos-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .photos-title {
+        font-size: 20px;
+    }
+
+    .photo-card__comment {
+        font-size: 12px;
+    }
+}

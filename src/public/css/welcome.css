@@ -1,0 +1,328 @@
+/* ===== トップページ専用 ===== */
+
+.home {
+    font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    color: #333;
+}
+
+/* ------------------------------
+  ヒーロー（タイトル＋写真）
+------------------------------ */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+}
+
+.hero__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.hero__overlay {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    text-align: center;
+}
+
+.hero__overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    z-index: -1;
+}
+
+.hero__openlabel {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.hero__openhours {
+    font-size: 48px;
+    font-weight: bold;
+    color: white;
+}
+
+.hero__media {
+    flex: 0 0 auto;
+    max-width: 200px;
+}
+
+.hero__img {
+    height: 400px;
+    width: auto;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ------------------------------
+  フォトコンテスト告知
+------------------------------ */
+.contest {
+    background: linear-gradient(135deg, #e6ba5d 0%, #9ac78a 100%);
+    text-align: center;
+    padding: 1.5rem 1rem;
+}
+
+.contest__lead {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.contest__deadline {
+    font-weight: bold;
+}
+
+.contest__button {
+    display: inline-block;
+    background-color: white;
+    color: #66cdaa;
+    padding: 0.5rem 1.2rem;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* ------------------------------
+  PICK UP 投稿写真
+------------------------------ */
+
+.section-title {
+    color: #66cdaa;
+}
+
+.photo__and--topics {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.pickup {
+    margin-top: 2rem;
+}
+
+.section-title {
+    font-size: 28px;
+    margin-bottom: 1rem;
+}
+
+.pickup__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
+    cursor: pointer;
+}
+
+.card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.card__media {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+        /* 3:2 や 1:1 に変えてもOK */
+        object-fit: cover;
+}
+
+.card__body {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.card__row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+}
+
+.card__comment {
+    font-size: 0.8rem;
+    color: #555;
+}
+
+/* プレースホルダ */
+.card--placeholder .card__ph {
+    background-color: #eee;
+    width: 100%;
+    padding-top: 75%;
+    /* アスペクト比維持 */
+}
+
+/* ------------------------------
+  TOPICS & EVENT
+------------------------------ */
+.topics {
+    margin-top: 2rem;
+    position: relative;
+    overflow: visible;
+}
+
+.topics__panda {
+    position: absolute;
+    top: -20px;
+    /* 見た目で微調整：見出しに少しかぶせる例 */
+    right: -580px;
+    /* コンテナの外に少しはみ出させる例（0にすれば内側） */
+    width: 360px;
+    /* 大きさはお好みで */
+    height: auto;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.topics__tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.topics__tab {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    background-color: #eee;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    color: #333;
+}
+
+.topics__tab.is-active {
+    background-color: #78a03f;
+    color: #fff;
+}
+
+.topics__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+    cursor: pointer;
+}
+
+.topics-card {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.topics-card__thumb {
+    background-color: #eee;
+}
+
+.topics-card__img {
+    width: 100%;
+    height: auto;
+}
+
+.topics-card__body {
+    padding: 0.5rem;
+}
+
+.topics-card__title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+.topics-card__meta {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.topics-card__label {
+    background-color: #ccc;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.7rem;
+    margin-right: 0.3rem;
+}
+
+.topics-card__excerpt {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+/* ------------------------------
+  フッター帯
+------------------------------ */
+.footband {
+    background-color: #000;
+    color: #fff;
+    text-align: left;
+    padding: 0.8rem;
+    margin-top: 2rem;
+}
+
+.footband__inner {
+    font-size: 0.85rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.footer_name {
+    font-size: 16px;
+    color: #78a03f;
+}
+
+/* ------------------------------
+  レスポンシブ調整
+------------------------------ */
+@media (max-width: 768px) {
+    .hero {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero__media {
+        max-width: 100%;
+        margin-top: 1rem;
+    }
+
+        .pickup__grid {
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+}
+
+@media (min-width: 1024px) {
+    .pickup__grid {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+}
+
+@media (max-width: 1024px) {
+    .topics__panda {
+            display: none;
+        }
+    
+    .contest__lead {
+        font-size: 16px;
+    }
+}
+

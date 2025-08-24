@@ -1,0 +1,194 @@
+/* ===== 写真投稿ページ ===== */
+.photo-create {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 16px;
+    font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+}
+
+.photo-create__title {
+    font-size: 28px;
+    margin: 0 0 16px;
+    color: #333;
+    border-left: 5px solid #66cdaa;
+    padding-left: 10px;
+}
+
+/* エラー表示 */
+.photo-create__errors {
+    background: #fff3f3;
+    border: 1px solid #f1b7b7;
+    color: #a33;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin-bottom: 16px;
+}
+
+.photo-create__errors ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+/* フォーム */
+.photo-create__form {
+    background: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 8px;
+    padding: 18px;
+    max-width: 720px;
+    margin: 0 auto;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #333;
+}
+
+.required {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 2px 6px;
+    font-size: 12px;
+    color: #fff;
+    background: #e5532d;
+    /* 必須バッジ（オレンジ） */
+    border-radius: 4px;
+    vertical-align: middle;
+}
+
+.photo-create__form input[type="file"],
+.photo-create__form select,
+.photo-create__form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    /* iOSのズーム防止 */
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    background: #fff;
+    transition: border-color .2s ease, box-shadow .2s ease;
+    appearance: none;
+}
+
+.photo-create__form textarea {
+    resize: vertical;
+    min-height: 120px;
+    line-height: 1.6;
+}
+
+.photo-create__form select {
+    background-image:
+        linear-gradient(45deg, transparent 50%, #999 50%),
+        linear-gradient(135deg, #999 50%, transparent 50%),
+        linear-gradient(to right, #eee, #eee);
+    background-position:
+        calc(100% - 18px) 50%,
+        calc(100% - 12px) 50%,
+        calc(100% - 36px) 50%;
+    background-size: 6px 6px, 6px 6px, 1px 24px;
+    background-repeat: no-repeat;
+    padding-right: 40px;
+}
+
+.photo-create__form input[type="file"] {
+    padding: 10px;
+    /* ブラウザ既定でOK。装飾は控えめに */
+}
+
+.photo-create__form input:focus,
+.photo-create__form select:focus,
+.photo-create__form textarea:focus {
+    border-color: #66cdaa;
+    box-shadow: 0 0 0 3px rgba(102, 205, 170, 0.2);
+}
+
+/* 送信ボタン */
+.form-submit {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    display: inline-block;
+    width: 260px;
+    max-width: 100%;
+    height: 48px;
+    line-height: 48px;
+    border: none;
+    border-radius: 999px;
+    background: #66cdaa;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform .05s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.submit-btn:hover {
+    background: #57b699;
+}
+
+.submit-btn:active {
+    transform: translateY(1px);
+}
+
+.submit-btn:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+/* 細かなアクセシビリティ */
+.photo-create__form input::file-selector-button {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 6px 10px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* ===== レスポンシブ ===== */
+@media (max-width: 768px) {
+    .photo-create__title {
+        font-size: 24px;
+    }
+
+    .photo-create__form {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .photo-create {
+        padding: 16px 12px;
+    }
+
+    .photo-create__title {
+        font-size: 20px;
+        padding-left: 8px;
+    }
+
+    .photo-create__form {
+        padding: 14px;
+        border-radius: 6px;
+    }
+
+    .form-group {
+        margin-bottom: 14px;
+    }
+
+    .submit-btn {
+        height: 46px;
+        line-height: 46px;
+        font-size: 15px;
+    }
+}

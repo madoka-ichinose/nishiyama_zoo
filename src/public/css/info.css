@@ -1,0 +1,107 @@
+.info-wrap {
+    max-width: 1200px;
+    margin: 24px auto;
+    padding: 0 16px;
+    font-family: "Yu Gothic", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    color: #333;
+}
+
+.info-head {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+
+.info-title {
+    margin: 0;
+    font-size: 24px;
+    border-left: 5px solid #66cdaa;
+    padding-left: 10px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 13px;
+    color: #fff;
+}
+
+.badge--open {
+    background: #3cb371;
+}
+
+.badge--closed {
+    background: #d9534f;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.card-title {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.defs {
+    margin: 0;
+}
+
+.defs .row {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 10px;
+    padding: 10px 0;
+    border-top: 1px solid #f0f0f0;
+}
+
+.defs .row:first-child {
+    border-top: none;
+}
+
+.defs dt {
+    color: #666;
+}
+
+.defs dd {
+    margin: 0;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 16px;
+    align-items: start;
+}
+
+.map-link {
+    margin-top: 6px;
+}
+
+.map-link a {
+    color: #2c7be5;
+    text-decoration: none;
+}
+
+.map-link a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 900px) {
+    .defs .row {
+        grid-template-columns: 120px 1fr;
+    }
+
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
