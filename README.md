@@ -51,6 +51,11 @@
 - メールアドレス：test1@example.com
 - パスワード：password
 
+## ER図  
+
+- index.drawio.pngに記載
+- ![alt text](image.png)
+
 ## URL　　
 
 - 開発環境：http://localhost/
