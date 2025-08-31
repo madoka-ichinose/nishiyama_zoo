@@ -21,12 +21,7 @@
           <li class="header-nav__item">
             <a class="header-nav__link" href="{{ route('photos.index') }}">写真</a>
           </li>
-          <li class="header-nav__item">
-            <a class="header-nav__link" href="{{ route('animals.index') }}">動物</a>
-          </li>
-          <li class="header-nav__item">
-            <a class="header-nav__link" href="{{ route('topics.index') }}">トピック</a>
-          </li>
+          
           <li class="header-nav__item">
             <a class="header-nav__link" href="{{ route('info.index') }}">インフォメーション</a>
           </li>

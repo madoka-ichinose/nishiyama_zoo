@@ -12,42 +12,69 @@ class PhotosTableSeeder extends Seeder
 {
     public function run()
     {
-        // 投稿者（最初のユーザーを仮利用）
-        $user = User::first();
+        $user = \App\Models\User::first();
         if (!$user) {
             $this->command->warn('User が存在しないためスキップしました');
             return;
         }
 
-        // 動物（適当に最初の動物）
-        $animal = Animal::first();
-        if (!$animal) {
-            $this->command->warn('Animal が存在しないためスキップしました');
-            return;
-        }
+        // 対象動物と画像リスト
+        $dummyPhotos = [
+            'レッサーパンダ' => [
+                ['file' => 'red_panda1.jpg', 'comment' => 'もぐもぐタイム！'],
+                ['file' => 'red_panda2.jpg', 'comment' => 'かわいい。'],
+                ['file' => 'red_panda3.png', 'comment' => 'お昼寝中のレッサーパンダ。'],
+                ['file' => 'red_panda4.jpg', 'comment' => 'キュートなお顔。'],
+                ['file' => 'red_panda5.jpg', 'comment' => 'しっぽがふわふわ！'],
+            ],
+            
+            'リスザル' => [
+                ['file' => 'squirrel_monkey.jpg', 'comment' => '元気に動き回るリスザル。'],
+            ],
+            'フランソワルトン' => [
+                ['file' => 'francois_langur.jpg', 'comment' => '赤ちゃんと'],
+            ],
+            'シロテテナガザル' => [
+                ['file' => 'gibbon.png', 'comment' => '鳴き声が特徴的なテナガザル。'],
+            ],
+        ];
 
-        // サンプル画像を storage にコピー（public/photos ディレクトリ）
+        // 保存ディレクトリを確保
         Storage::disk('public')->makeDirectory('photos');
-        $sampleImagePath = 'photos/sample1.jpg';
 
-        if (!Storage::disk('public')->exists($sampleImagePath)) {
-            // プロジェクトの public/images からコピー
-            if (file_exists(public_path('images/red_panda2.png'))) {
-                Storage::disk('public')->put(
-                    $sampleImagePath,
-                    file_get_contents(public_path('images/red_panda2.png'))
-                );
+        foreach ($dummyPhotos as $animalName => $photos) {
+            $animal = Animal::where('name', $animalName)->first();
+            if (!$animal) {
+                $this->command->warn("Animal '{$animalName}' が存在しないためスキップしました");
+                continue;
+            }
+
+            foreach ($photos as $p) {
+                $sampleImagePath = 'photos/' . $p['file'];
+
+                // storage に存在しなければコピー
+                if (!Storage::disk('public')->exists($sampleImagePath)) {
+                    $source = public_path('images/' . $p['file']);
+                    if (file_exists($source)) {
+                        Storage::disk('public')->put(
+                            $sampleImagePath,
+                            file_get_contents($source)
+                        );
+                    } else {
+                        $this->command->warn("画像ファイル {$source} が存在しません");
+                        continue;
+                    }
+                }
+
+                Photo::create([
+                    'user_id'     => $user->id,
+                    'animal_id'   => $animal->id,
+                    'image_path'  => $sampleImagePath,
+                    'comment'     => $p['comment'],
+                    'is_approved' => true,
+                    'is_visible'  => true,
+                ]);
             }
         }
-
-        // ダミー投稿
-        Photo::create([
-            'user_id'     => $user->id,
-            'animal_id'   => $animal->id,
-            'image_path'  => $sampleImagePath,
-            'comment'     => 'かわいいレッサーパンダです！',
-            'is_approved' => true,   // 管理者承認済みとする
-            'is_visible'  => true,
-        ]);
     }
 }
