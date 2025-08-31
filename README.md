@@ -54,7 +54,7 @@
 ## ER図  
 
 - index.drawio.pngに記載
-- ![alt text](image.png)
+ ![alt text](image.png)
 
 ## URL　　
 
@@ -62,34 +62,30 @@
 
 ## セットアップ手順
 
-- リポジトリをクローン
+### リポジトリをクローン
 
-git clone https://github.com/madoka-ichinose/nishiyama_zoo.git
-cd nishiyama_zoo
+- git clone https://github.com/madoka-ichinose/nishiyama_zoo.git
+- cd nishiyama_zoo
+- docker-compose up -d --build
+- docker-compose exec php bash
+- composer install
 
-- 環境ファイルをコピー
+### 環境ファイルをコピー
 
-cd src
-cp .env.example .env
+- cd src
+- cp .env.example .env
+- .envの設定
+- sudo chmod -R 777*
+- docker-compose exec php bash
+- php artisan key:generate
 
-- コンテナ起動
+### マイグレーション & シーディング
 
-docker-compose up -d --build
+- php artisan migrate --seed
+- php artisan storage:link
 
-- 依存関係インストール
+## ディレクトリ構成（主要部分）
 
-docker-compose exec app composer install
-docker-compose exec app npm install && npm run dev
-
-- アプリキー生成
-
-docker-compose exec app php artisan key:generate
-
-- マイグレーション & シーディング
-
-docker-compose exec app php artisan migrate --seed
-
-- ディレクトリ構成（主要部分）
 src/
 ├── app/
 │   ├── Http/Controllers/   # コントローラ（User, Admin, Contest, Photoなど）
