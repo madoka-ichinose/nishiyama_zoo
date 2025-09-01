@@ -57,7 +57,7 @@
             <img src="{{ asset('storage/'.$photo->image_path) }}" alt="{{ $photo->animal->name }}" class="card__media">
             <div class="card__body">
               <div class="card__row">
-                <span class="card__name">{{ $photo->animal->name }}</span>
+                <span class="card__name">{{ $photo->user->name }}</span>
                 <time class="card__time">{{ $photo->created_at->format('Y/m/d') }}</time>
               </div>
               @if($photo->comment)

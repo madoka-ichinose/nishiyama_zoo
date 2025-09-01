@@ -102,38 +102,44 @@ class ContestPhotoController extends Controller
     }
 
     public function exportCsv(Contest $contest, Request $request): StreamedResponse
-    {
-        $fileName = 'contest_'.$contest->id.'_photos_'.now()->format('Ymd_His').'.csv';
+{
+    $fileName = 'contest_'.$contest->id.'_photos_'.now()->format('Ymd_His').'.csv';
 
-        $base = Photo::query()->with('user')->forContest($contest->id)
-            ->status($this->s($request, 'status'))
-            ->visible($request->input('visible'))
-            ->keyword($this->s($request, 'q'))
-            ->userNameLike($this->s($request, 'user'))
-            ->dateRange($this->s($request, 'from'), $this->s($request, 'to'));
+    $base = Photo::query()->with('user')->forContest($contest->id)
+        ->status($this->s($request, 'status'))
+        ->visible($request->input('visible'))
+        ->keyword($this->s($request, 'q'))
+        ->userNameLike($this->s($request, 'user'))
+        ->dateRange($this->s($request, 'from'), $this->s($request, 'to'));
 
-        $columns = ['id','user_name','caption','status','is_visible','created_at','hidden_reason'];
+    // ← DBはcommentなので列名も合わせる
+    $columns = ['id','user_name','comment','status','is_visible','created_at','hidden_reason'];
 
-        return response()->streamDownload(function () use ($base, $columns) {
-            $out = fopen('php://output', 'w');
-            // ヘッダ
-            fputcsv($out, $columns);
-            $base->orderBy('id')->chunk(500, function ($rows) use ($out) {
-                foreach ($rows as $p) {
-                    fputcsv($out, [
-                        $p->id,
-                        optional($p->user)->name,
-                        $p->caption,
-                        $p->status,        // アクセサ
-                        $p->is_visible ? 1 : 0,
-                        $p->created_at?->format('Y-m-d H:i:s'),
-                        $p->hidden_reason,
-                    ]);
-                }
-            });
-            fclose($out);
-        }, $fileName, [
-            'Content-Type' => 'text/csv; charset=UTF-8',
-        ]);
-    }
+    return response()->streamDownload(function () use ($base, $columns) {
+        // UTF-8 BOM を先頭に出力
+        echo "\xEF\xBB\xBF";
+
+        $out = fopen('php://output', 'w');
+        fputcsv($out, $columns);
+
+        $base->orderBy('id')->chunk(500, function ($rows) use ($out) {
+            foreach ($rows as $p) {
+                fputcsv($out, [
+                    $p->id,
+                    optional($p->user)->name,
+                    $p->comment,                     // ← caption → comment に修正
+                    $p->status,                      // アクセサ（pending/approved/rejected など）
+                    $p->is_visible ? 1 : 0,
+                    optional($p->created_at)?->format('Y-m-d H:i:s'),
+                    $p->hidden_reason,
+                ]);
+            }
+        });
+        fclose($out);
+    }, $fileName, [
+        'Content-Type'        => 'text/csv; charset=UTF-8',
+        // 日本語ファイル名に安全な指定
+        'Content-Disposition' => "attachment; filename*=UTF-8''{$fileName}",
+    ]);
+}
 }

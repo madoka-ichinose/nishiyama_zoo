@@ -97,46 +97,55 @@
             <button class="btn danger" onclick="return confirm('選択行に一括適用します。よろしいですか？')">適用</button>
         </div>
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th><input type="checkbox" id="check-all"></th>
-                    <th>ID</th>
-                    <th>サムネイル</th>
-                    <th>コメント</th>
-                    <th>投稿者</th>
-                    <th>状態</th>
-                    <th>表示</th>
-                    <th>投稿日時</th>
-                    <th>非表示理由</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($photos as $p)
-                <tr>
-                    <td><input type="checkbox" name="ids[]" value="{{ $p->id }}"></td>
-                    <td>{{ $p->id }}</td>
-                    <td>
-                        {{-- ★ ここを修正：storage 経由で表示 --}}
-                        <img src="{{ asset('storage/'.$p->image_path) }}" alt="photo {{ $p->id }}" class="thumb">
-                    </td>
-                    <td class="caption">{{ $p->comment }}</td>
-                    <td>{{ optional($p->user)->name }}</td>
-                    <td>
-                        @php($st = $p->status)
-                        <span class="badge {{ $st }}">{{ [
-                            'pending'=>'承認待ち','approved'=>'承認済み','rejected'=>'却下'
-                        ][$st] ?? $st }}</span>
-                    </td>
-                    <td>{!! $p->is_visible ? '<span class="ok">表示</span>' : '<span class="ng">非表示</span>' !!}</td>
-                    <td>{{ $p->created_at?->format('Y-m-d H:i') }}</td>
-                    <td>{{ $p->hidden_reason }}</td>
-                </tr>
-                @empty
-                <tr><td colspan="9" class="empty">該当データがありません</td></tr>
-                @endforelse
-            </tbody>
-        </table>
+        {{-- 一覧テーブル --}}
+<table class="table">
+    <thead>
+        <tr>
+            <th><input type="checkbox" id="check-all"></th>
+            <th>ID</th>
+            <th>写真</th>
+            <th>コメント</th>
+            <th>投稿者</th>
+            <th>状態</th>
+            <th>表示</th>
+            <th>投稿日時</th>
+            <th>非表示理由</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse ($photos as $p)
+        <tr>
+            <td><input type="checkbox" name="ids[]" value="{{ $p->id }}"></td>
+            <td>{{ $p->id }}</td>
+            <td>
+                {{-- サムネイルをクリックでモーダル表示 --}}
+                <a href="#"
+                   class="thumb-trigger"
+                   data-img="{{ asset('storage/'.$p->image_path) }}"
+                   data-comment="{{ $p->comment }}"
+                   data-user="{{ optional($p->user)->name }}"
+                   data-date="{{ $p->created_at?->format('Y-m-d H:i') }}">
+                    <img src="{{ asset('storage/'.$p->image_path) }}" alt="photo {{ $p->id }}" class="thumb">
+                </a>
+            </td>
+            <td class="caption">{{ $p->comment }}</td>
+            <td>{{ optional($p->user)->name }}</td>
+            <td>
+                @php($st = $p->status)
+                <span class="badge {{ $st }}">{{ [
+                    'pending'=>'承認待ち','approved'=>'承認済み','rejected'=>'却下'
+                ][$st] ?? $st }}</span>
+            </td>
+            <td>{!! $p->is_visible ? '<span class="ok">表示</span>' : '<span class="ng">非表示</span>' !!}</td>
+            <td>{{ $p->created_at?->format('Y-m-d H:i') }}</td>
+            <td>{{ $p->hidden_reason }}</td>
+        </tr>
+        @empty
+        <tr><td colspan="9" class="empty">該当データがありません</td></tr>
+        @endforelse
+    </tbody>
+</table>
+
     </form>
 
     {{ $photos->links() }}
@@ -152,6 +161,23 @@
         <small>バーの高さは件数相対値です</small>
     </details>
 </div>
+
+{{-- モーダル --}}
+<div id="photoModal" class="modal" aria-hidden="true">
+  <div class="modal__overlay" data-close></div>
+  <div class="modal__dialog" role="dialog" aria-modal="true">
+    <button class="modal__close" type="button" aria-label="閉じる" data-close>&times;</button>
+    <div class="modal__media">
+      <img id="modalImg" src="" alt="拡大画像">
+    </div>
+    <div class="modal__body">
+      <p class="modal__user"></p>
+      <p class="modal__comment"></p>
+      <p class="modal__date"></p>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @push('scripts')
@@ -159,5 +185,40 @@
     document.getElementById('check-all')?.addEventListener('change', function(e){
         document.querySelectorAll('input[name="ids[]"]').forEach(ch => ch.checked = e.target.checked);
     });
+    document.addEventListener('DOMContentLoaded', () => {
+  const modal = document.getElementById('photoModal');
+  const imgEl = document.getElementById('modalImg');
+  const userEl = modal.querySelector('.modal__user');
+  const commentEl = modal.querySelector('.modal__comment');
+  const dateEl = modal.querySelector('.modal__date');
+
+  document.querySelectorAll('.thumb-trigger').forEach(el => {
+    el.addEventListener('click', e => {
+      e.preventDefault();
+      imgEl.src = el.dataset.img;
+      userEl.textContent = el.dataset.user || '投稿者不明';
+      commentEl.textContent = el.dataset.comment || '';
+      dateEl.textContent = el.dataset.date || '';
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+    });
+  });
+
+  modal.addEventListener('click', e => {
+    if (e.target.hasAttribute('data-close')) {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      imgEl.src = '';
+    }
+  });
+
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      imgEl.src = '';
+    }
+  });
+});
 </script>
 @endpush
