@@ -13,3 +13,5 @@ RUN curl -sS https://getcomposer.org/installer | php \
 WORKDIR /var/www
 
 EXPOSE 80
+
+CMD ["nginx","-g","daemon off;"]
